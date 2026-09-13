@@ -168,8 +168,10 @@ h3 { letter-spacing: -0.02em; }
   max-width: 800px;
 }
 
-.page-header h1 {
-  font-size: clamp(2.8rem, 7vw, 5.4rem);
+.project-intro h1 {
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 28px;
 }
 
 .content {
@@ -222,4 +224,214 @@ footer {
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+/* Homepage hero with headshot */
+
+.hero {
+  max-width: none;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 700px;
+}
+
+.hero-photo {
+  flex-shrink: 0;
+}
+
+.hero-photo img {
+  width: 260px;
+  height: auto;
+  border-radius: 18px;
+  display: block;
+}
+
+/* Stack the photo and text on smaller screens */
+@media (max-width: 800px) {
+  .hero-content {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .hero-photo img {
+    width: 240px;
+    height: 300px;
+  }
+}
+
+/* =========================
+   PROJECT PAGES
+   ========================= */
+
+.project-section {
+  padding: 55px 0 70px;
+  border-top: 1px solid var(--line);
+}
+
+.project-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.project-split.reverse .project-media {
+  order: 2;
+}
+
+.project-split.reverse .project-copy {
+  order: 1;
+}
+
+.project-copy {
+  max-width: 520px;
+}
+
+.project-copy p {
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.project-media img {
+  width: 100%;
+  max-height: 430px;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: white;
+}
+
+.project-media figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.critical-path-box {
+  margin-top: 22px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.figure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.figure-grid img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+}
+
+@media (max-width: 820px) {
+  .project-split,
+  .figure-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-split.reverse .project-media,
+  .project-split.reverse .project-copy {
+    order: initial;
+  }
+
+  .project-copy {
+    max-width: none;
+  }
+}
+
+/* =========================================
+   RESTORE PROJECT STATS
+   ========================================= */
+
+.project-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding-bottom: 70px;
+}
+
+.stat-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+
+/* =========================================
+   RESTORE DESIGN TAKEAWAYS
+   ========================================= */
+
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.takeaway-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.takeaway-card h3 {
+  margin-top: 0;
+}
+
+.takeaway-card p {
+  margin-bottom: 0;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 800px) {
+
+  .project-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .takeaway-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+.project-tags {
+  margin-bottom: 50px;
 }
