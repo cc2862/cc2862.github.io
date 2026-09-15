@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Programmable Birdsong Synthesizer | Catherine Cheng</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+  <a class="brand" href="../index.html">Catherine Cheng</a>
+
+  <nav class="nav">
+    <a href="../about.html">About</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../coursework.html">Coursework</a>
+    <a href="../resume.html">Resume</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+
+</header>
+
+
+<main class="project-page">
+
+
+  <!-- ==========================================
+       INTRO
+       ========================================== -->
+
+  <section class="project-intro">
+
+    <p class="eyebrow">EMBEDDED SYSTEMS · AUDIO SYNTHESIS</p>
+
+    <h1>Programmable Birdsong Synthesizer</h1>
+
+    <p class="project-lead">
+      Built a real-time embedded audio synthesizer on the RP2350 that
+      generates, records, accelerates, and sequences user-controlled
+      frequency patterns to reproduce rapidly modulated birdsong.
+    </p>
+
+    <div class="project-tags">
+      <span class="tag">C</span>
+      <span class="tag">RP2350</span>
+      <span class="tag">DDS</span>
+      <span class="tag">SPI</span>
+      <span class="tag">ADC</span>
+      <span class="tag">Interrupts</span>
+      <span class="tag">Embedded Audio</span>
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       01 SYSTEM OVERVIEW
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="project-split">
+
+      <figure class="project-media">
+
+        <img
+          src="../assets/images/birdsynth/cover.jpg"
+          alt="Programmable birdsong synthesizer hardware">
+
+        <figcaption>
+          <strong>Programmable birdsong synthesizer.</strong>
+          RP2350-based embedded system combining analog pitch control,
+          keypad input, real-time digital synthesis, and external DAC
+          audio output.
+        </figcaption>
+
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">01</p>
+
+        <h2>System Overview</h2>
+
+        <p>
+          The synthesizer allows a user to generate and manipulate audio
+          in real time using a slide potentiometer and matrix keypad.
+          Moving the potentiometer continuously adjusts the generated
+          frequency over a range of approximately 0–10 kHz.
+        </p>
+
+        <p>
+          Audio samples are generated digitally on the RP2350 and sent
+          over SPI to an external DAC, where the digital samples are
+          converted into an analog signal for playback through an
+          audio output.
+        </p>
+
+        <p>
+          Beyond generating a simple tone, the system can record
+          frequency trajectories, assign individual recordings to keypad
+          buttons, accelerate their playback to create rapid
+          bird-like frequency modulation, and combine recordings into
+          programmable sequences.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       SYSTEM FLOW
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="signal-flow">
+
+      <div class="signal-block">
+        <strong>Potentiometer</strong>
+        <span>User-controlled pitch</span>
+      </div>
+
+      <div class="signal-arrow">→</div>
+
+      <div class="signal-block">
+        <strong>ADC</strong>
+        <span>12-bit measurement</span>
+      </div>
+
+      <div class="signal-arrow">→</div>
+
+      <div class="signal-block">
+        <strong>DDS</strong>
+        <span>Digital waveform</span>
+      </div>
+
+      <div class="signal-arrow">→</div>
+
+      <div class="signal-block">
+        <strong>SPI DAC</strong>
+        <span>Analog conversion</span>
+      </div>
+
+      <div class="signal-arrow">→</div>
+
+      <div class="signal-block">
+        <strong>Audio</strong>
+        <span>Speaker output</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       02 REAL-TIME SYNTHESIS
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <figure class="project-media">
+
+        <img
+          src="../assets/images/birdsynth/rp2350-block-diagram.jpg"
+          alt="RP2350 architecture diagram highlighting timer and SPI peripherals">
+
+        <figcaption>
+          <strong>RP2350 peripherals used for synthesis.</strong>
+          A hardware timer controls the synthesis interval while SPI
+          transfers generated samples to the external DAC.
+        </figcaption>
+
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">02</p>
+
+        <h2>Real-Time Audio Synthesis</h2>
+
+        <p>
+          Audio is generated using direct digital synthesis (DDS).
+          A hardware timer invokes the synthesis interrupt service
+          routine every 20 μs, producing a 50 kHz sample rate.
+        </p>
+
+        <p>
+          During each interrupt, a phase accumulator is advanced according
+          to the desired output frequency. The upper bits of the accumulator
+          index a 256-entry sine lookup table, producing the next waveform
+          sample.
+        </p>
+
+        <p>
+          The resulting sample is packaged into the DAC command format
+          and transmitted over SPI. Repeating this process at a fixed
+          sampling rate produces the continuous analog tone heard at the
+          output.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="project-stats birdsynth-stats">
+
+      <div class="stat">
+        <strong>50 kHz</strong>
+        <span>Sample Rate</span>
+      </div>
+
+      <div class="stat">
+        <strong>20 μs</strong>
+        <span>Sample Period</span>
+      </div>
+
+      <div class="stat">
+        <strong>256</strong>
+        <span>Sine LUT Entries</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       03 REAL-TIME PERFORMANCE
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="project-split">
+
+      <figure class="project-media">
+
+        <img
+          src="../assets/images/birdsynth/isr-timing.png"
+          alt="Oscilloscope measurement of birdsong synthesis ISR execution time">
+
+        <figcaption>
+          <strong>Synthesis ISR timing measurement.</strong>
+          A GPIO pin is asserted on ISR entry and cleared immediately
+          before exit, allowing execution time to be measured directly
+          on the oscilloscope.
+        </figcaption>
+
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">03</p>
+
+        <h2>Real-Time Performance Verification</h2>
+
+        <p>
+          Generating audio at 50 kHz gives the processor only 20 μs
+          between consecutive samples, so the synthesis ISR must finish
+          comfortably within that timing budget.
+        </p>
+
+        <p>
+          To measure execution time on the physical system, I asserted a
+          GPIO pin immediately upon entering the synthesis ISR and cleared
+          it before returning. Measuring the resulting pulse width on an
+          oscilloscope directly captures the time spent executing the ISR.
+        </p>
+
+        <p>
+          The measured execution time was approximately
+          <strong>2.16 μs</strong>, corresponding to about
+          <strong>10.8%</strong> of the available 20 μs sampling period.
+          This leaves approximately 17.84 μs before the next audio sample
+          must be generated.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="project-stats birdsynth-stats">
+
+      <div class="stat">
+        <strong>2.16 μs</strong>
+        <span>Measured ISR Time</span>
+      </div>
+
+      <div class="stat">
+        <strong>10.8%</strong>
+        <span>Sample Period Used</span>
+      </div>
+
+      <div class="stat">
+        <strong>17.84 μs</strong>
+        <span>Timing Margin</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       04 ANALOG PITCH CONTROL
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="wide-section">
+
+      <div class="wide-section-heading">
+
+        <p class="section-number">04</p>
+
+        <h2>Analog Pitch Control</h2>
+
+      </div>
+
+
+      <div class="wide-section-content">
+
+        <p>
+          A slide potentiometer provides continuous control over the
+          synthesizer's pitch. The RP2350 ADC samples the potentiometer
+          voltage and maps its digital value to an output frequency
+          ranging from approximately 0 to 10 kHz.
+        </p>
+
+        <p>
+          Rather than directly changing the waveform itself, the measured
+          frequency determines the DDS phase increment. Larger phase
+          increments move through the sine lookup table more quickly,
+          producing a higher output frequency.
+        </p>
+
+        <div class="critical-path-box">
+          Potentiometer → ADC value → Desired frequency → DDS phase increment
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       05 KEYPAD
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <figure class="project-media">
+
+        <img
+          src="../assets/images/birdsynth/debounce-fsm.jpg"
+          alt="Four-state finite state machine used to debounce keypad input">
+
+        <figcaption>
+          <strong>Four-state keypad debounce FSM.</strong>
+          Inputs must remain consistent across successive keypad scans
+          before a press or release is accepted.
+        </figcaption>
+
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">05</p>
+
+        <h2>Keypad Input & Debouncing</h2>
+
+        <p>
+          A matrix keypad provides the primary digital interface for
+          controlling recording, playback, composition, and tone output.
+        </p>
+
+        <p>
+          Mechanical switches do not transition cleanly between logic
+          levels when pressed or released. Without debouncing, a single
+          physical keypress can therefore appear as several rapid input
+          events.
+        </p>
+
+        <p>
+          I used a four-state finite-state machine —
+          <strong>NOT_PRESSED</strong>,
+          <strong>MAYBE_PRESSED</strong>,
+          <strong>PRESSED</strong>, and
+          <strong>MAYBE_NOT_PRESSED</strong> —
+          to verify that a key remains stable before accepting the
+          transition.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       06 RECORDING
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="wide-section">
+
+      <div class="wide-section-heading">
+
+        <p class="section-number">06</p>
+
+        <h2>Recording & Accelerated Playback</h2>
+
+      </div>
+
+
+      <div class="wide-section-content">
+
+        <p>
+          Pressing the asterisk key enters Record Mode. The user can then
+          hold any key from 1–9 while moving the slide potentiometer to
+          create a changing frequency pattern.
+        </p>
+
+        <p>
+          Instead of storing the generated audio waveform itself, the
+          synthesizer records the underlying frequency trajectory. This
+          requires far less data and allows the same DDS engine to
+          reconstruct the waveform later.
+        </p>
+
+        <p>
+          Each key from 1–9 has an independent recording buffer. During
+          playback, the stored frequency sequence is traversed approximately
+          8–10× faster than it was recorded.
+        </p>
+
+        <p>
+          Accelerating the frequency trajectory produces the rapid
+          modulation characteristic of many bird calls while still
+          allowing the user to create the original pattern slowly and
+          deliberately with the potentiometer.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       07 COMPOSE MODE
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="wide-section">
+
+      <div class="wide-section-heading">
+
+        <p class="section-number">07</p>
+
+        <h2>Compose Mode</h2>
+
+      </div>
+
+
+      <div class="wide-section-content">
+
+        <p>
+          Individual recorded sounds can be combined into longer
+          sequences using Compose Mode.
+        </p>
+
+        <p>
+          Pressing the # key begins composition. The user then enters a
+          sequence of keys corresponding to previously recorded sounds.
+          Pressing # again ends composition and automatically plays the
+          sequence from beginning to end.
+        </p>
+
+
+        <div class="compose-demo">
+
+          <div class="compose-label">Recorded sounds</div>
+
+          <div class="compose-keys">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+          </div>
+
+          <div class="compose-label">Example composition</div>
+
+          <div class="compose-sequence">
+            <span>2</span>
+            <b>→</b>
+            <span>2</span>
+            <b>→</b>
+            <span>5</span>
+            <b>→</b>
+            <span>1</span>
+            <b>→</b>
+            <span>7</span>
+          </div>
+
+        </div>
+
+
+        <p>
+          This transforms the device from a simple tone generator into a
+          programmable synthesizer capable of storing individual sound
+          elements and arranging them into complete birdsong patterns.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==========================================
+       08 DEMO
+       ========================================== -->
+
+  <section class="project-section">
+
+    <div class="wide-section">
+
+      <div class="wide-section-heading">
+
+        <p class="section-number">08</p>
+
+        <h2>Demo</h2>
+
+      </div>
+
+
+      <div class="wide-section-content">
+
+        <p>
+          The finished system demonstrates live pitch generation,
+          frequency recording, accelerated playback, and composition
+          of multiple recorded sounds into a birdsong sequence.
+        </p>
+
+
+        <div class="video-wrapper">
+
+          <iframe
+            src="https://www.youtube.com/embed/7Sm-g5hQTHs"
+            title="Programmable Birdsong Synthesizer Demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+<!-- ==========================================
+     09 CHALLENGES & DEBUGGING
+     ========================================== -->
+
+<section class="project-section">
+
+  <p class="section-number">09</p>
+  <h2>Challenges & Debugging</h2>
+
+  <p class="challenge-intro">
+    Many of the most difficult bugs appeared only after the audio,
+    user-input, and control subsystems were integrated. Debugging the
+    system required accounting for real-time deadlines, electrical
+    behavior, and interactions between software states.
+  </p>
+
+
+  <div class="challenge-list">
+
+
+    <!-- CHALLENGE 1 -->
+
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">01</span>
+        <h3>When Debugging Changed the Bug</h3>
+      </div>
+
+      <p>
+        While debugging the synthesis interrupt, it was tempting to add
+        print statements inside the ISR to report state changes and
+        intermediate values. However, UART output is extremely slow
+        relative to the audio sampling deadline.
+      </p>
+
+      <p>
+        At 115200 baud with a typical 8-N-1 UART frame, transmitting even
+        a single ASCII character takes approximately 86.8 μs. The audio
+        synthesis ISR, however, must execute once every 20 μs to maintain
+        the 50 kHz sample rate. A blocking character transmission inside
+        the ISR could therefore consume more than four complete sample
+        periods.
+      </p>
+
+      <p>
+        This created a particularly misleading debugging problem:
+        instrumentation intended to expose timing-related behavior could
+        itself cause missed deadlines and change how the original bug
+        appeared.
+      </p>
+
+      <div class="solution-box">
+        <strong>Solution:</strong>
+        I moved time-sensitive debugging away from formatted serial output
+        and used GPIO instrumentation instead. By setting a GPIO on ISR
+        entry and clearing it on exit, I could observe execution timing
+        externally with an oscilloscope without significantly disturbing
+        the real-time behavior of the system.
+      </div>
+
+    </div>
+
+
+
+    <!-- CHALLENGE 2 -->
+
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">02</span>
+        <h3>Breadboard Parasitics & Keypad Reliability</h3>
+      </div>
+
+      <p>
+        The keypad interface relied on GPIO drive levels and pull
+        resistances to distinguish rows and columns. On the breadboard,
+        the physical wiring introduced non-ideal effects that were absent
+        from the ideal digital model.
+      </p>
+
+      <p>
+        Parasitic capacitance from the breadboard and jumper wires,
+        combined with pull-up/pull-down resistance and switch contact
+        behavior, can create finite RC settling times at GPIO inputs.
+        Reading a keypad line too quickly after changing the driven row
+        can therefore sample the signal before it has fully settled.
+      </p>
+
+      <p>
+        Mechanical switch bounce added another source of transient input
+        behavior, making a single physical press capable of producing
+        multiple apparent transitions.
+      </p>
+
+      <div class="solution-box">
+        <strong>Solution:</strong>
+        I treated the keypad as a real electrical interface rather than
+        an ideal digital input. Stable scan timing combined with the
+        four-state debounce FSM ensured that a transition had to persist
+        before the software accepted it as a valid press or release.
+      </div>
+
+    </div>
+
+
+
+    <!-- CHALLENGE 3 -->
+
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">03</span>
+        <h3>Preventing Operating Modes from Interacting</h3>
+      </div>
+
+      <p>
+        As functionality expanded, the synthesizer developed several
+        distinct operating behaviors: live tone generation, recording,
+        individual playback, composition entry, and composed-sequence
+        playback.
+      </p>
+
+      <p>
+        Early implementations made it possible for state associated with
+        one behavior to remain active after entering another. For example,
+        playback state, recording state, or a previous key event could
+        unintentionally affect the newly selected mode. These interactions
+        produced behavior that appeared unpredictable because each feature
+        worked correctly in isolation.
+      </p>
+
+      <div class="solution-box">
+        <strong>Solution:</strong>
+        I separated the operating behaviors into explicit modes and made
+        mode transitions responsible for initializing or clearing the
+        relevant state. This prevented stale recording or playback state
+        from leaking into another mode and made the overall control flow
+        substantially easier to reason about.
+      </div>
+
+    </div>
+
+
+
+    <!-- CHALLENGE 4 -->
+
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">04</span>
+        <h3>Verifying the Real-Time Timing Budget</h3>
+      </div>
+
+      <p>
+        With a 50 kHz sampling rate, every audio sample must be generated
+        within a 20 μs window. As more functionality was added to the
+        system, it became important to verify that the synthesis ISR still
+        met this deadline rather than assuming that it did.
+      </p>
+
+      <p>
+        I instrumented the ISR by asserting a GPIO immediately upon entry
+        and clearing it immediately before exit. The pulse width could then
+        be measured directly with an oscilloscope.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        The ISR measured approximately 2.16 μs, or about 10.8% of the
+        available 20 μs sample period, leaving approximately 17.84 μs of
+        timing margin.
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+</main>
+
+
+
+<footer>
+  <span id="year"></span>
+  Catherine Cheng · Built with HTML, CSS, and GitHub Pages.
+</footer>
+
+<script src="../js/main.js"></script>
+
+</body>
+
+</html>

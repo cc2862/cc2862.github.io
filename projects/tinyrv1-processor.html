@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>TinyRV1 Processor | Catherine Cheng</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../index.html">Catherine Cheng</a>
+
+  <nav class="nav">
+    <a href="../about.html">About</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../coursework.html">Coursework</a>
+    <a href="../resume.html">Resume</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+</header>
+
+
+<main class="project-page">
+
+  <!-- =========================
+       PROJECT INTRO
+       ========================= -->
+
+  <section class="project-intro">
+
+    <p class="eyebrow">FPGA · DIGITAL LOGIC</p>
+
+    <h1>
+      TinyRV1 Single-Cycle Processor
+      & Hardware Accelerator
+    </h1>
+
+    <p class="project-lead">
+      Designed and implemented a TinyRV1 single-cycle processor and
+      specialized accumulate accelerator in Verilog, deployed the system
+      to an FPGA, and characterized its timing and execution using Quartus
+      and oscilloscope measurements.
+    </p>
+
+    <div class="project-tags">
+      <span class="tag">Verilog</span>
+      <span class="tag">FPGA</span>
+      <span class="tag">Computer Architecture</span>
+      <span class="tag">RISC-V</span>
+      <span class="tag">Quartus</span>
+      <span class="tag">SPI</span>
+      <span class="tag">Assembly</span>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PROJECT STATS
+       ========================= -->
+
+  <section class="project-stats">
+
+    <div class="stat-card">
+      <span class="stat-number">12.5 MHz</span>
+      <span class="stat-label">Clock Frequency</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-number">9,328</span>
+      <span class="stat-label">ALUTs</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-number">~34%</span>
+      <span class="stat-label">FPGA Utilization</span>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-number">12.4 µs</span>
+      <span class="stat-label">Measured Runtime</span>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       01 SYSTEM ARCHITECTURE
+       IMAGE LEFT / TEXT RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split">
+
+      <figure class="project-media">
+        <img
+          src="../assets/images/tinyrv1/system-architecture.jpg"
+          alt="TinyRV1 FPGA system architecture">
+
+        <figcaption>
+          <strong>System architecture.</strong>
+          TinyRV1 processor, shared memory bus, physical memory,
+          SPI interface, and FPGA peripherals.
+        </figcaption>
+      </figure>
+
+      <div class="project-copy">
+
+        <p class="section-number">01</p>
+
+        <h2>System Architecture</h2>
+
+        <p>
+          I designed and implemented a TinyRV1 single-cycle processor
+          in Verilog and deployed it to an FPGA.
+        </p>
+
+        <p>
+          The processor interfaces with instruction and data memory through
+          a shared memory bus and forms part of a larger embedded system
+          containing physical memory, SPI communication, seven-segment
+          displays, switches, LEDs, a distance sensor, and other peripherals.
+        </p>
+
+        <p>
+          This system-level integration let me test the processor as part
+          of a complete hardware platform rather than only through simulation.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       02 DATAPATH
+       TEXT LEFT / IMAGE RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <figure class="project-media">
+        <img
+          src="../assets/images/tinyrv1/processor-datapath.jpg"
+          alt="TinyRV1 processor datapath and critical path">
+
+        <figcaption>
+          <strong>Processor datapath.</strong>
+          Single-cycle datapath with the timing-critical load-word path
+          highlighted and individual delays annotated.
+        </figcaption>
+      </figure>
+
+      <div class="project-copy">
+
+        <p class="section-number">02</p>
+
+        <h2>Processor Datapath & Critical Path</h2>
+
+        <p>
+          Because the processor uses a single-cycle architecture, every
+          instruction must complete within one clock period. The maximum
+          clock frequency is therefore limited by the slowest combinational
+          path through the complete system.
+        </p>
+
+        <p>
+          The critical path corresponds to a
+          <code>lw</code> instruction, which must complete instruction fetch,
+          decode, register-file access, ALU address generation, data memory
+          access, and register write-back in the same cycle.
+        </p>
+
+        <div class="critical-path-box">
+          <strong>Critical path:</strong><br>
+          SPI →
+          <code>hmem_val</code> →
+          Memory Bus →
+          <code>mem0_addr</code> →
+          Physical Memory instruction fetch →
+          instruction decode →
+          register-file read →
+          ALU address calculation →
+          <code>dmem_addr</code> →
+          Physical Memory data read →
+          load write-back mux →
+          register-file write-back
+        </div>
+
+        <p>
+          The final system met timing with an
+          <strong>80 ns clock period</strong>,
+          corresponding to a maximum clock frequency of
+          <strong>12.5 MHz</strong>.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       03 RTL DESIGN
+       IMAGE LEFT / TEXT RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split">
+
+      <div class="project-media">
+
+        <pre class="hierarchy">
+ProcScycle
+└── ProcScycleDpath
+    └── ALU_32b
+        └── Adder_32b_GL
+            └── AdderCarrySelect_16b_GL
+                └── AdderRippleCarry_8b_GL
+                    └── FullAdder_GL
+        </pre>
+
+        <figure class="project-figure compact">
+
+          <img
+            src="../assets/images/tinyrv1/full-adder-rtl.jpg"
+            alt="Quartus RTL viewer showing gate-level full adder">
+
+          <figcaption>
+            <strong>Gate-level full adder.</strong>
+            Quartus RTL Viewer showing the
+            <code>FullAdder_GL</code> module used at the lowest level
+            of the processor arithmetic hierarchy.
+          </figcaption>
+
+        </figure>
+
+      </div>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">03</p>
+
+        <h2>Hierarchical RTL Design</h2>
+
+        <p>
+          I implemented the processor hierarchically in Verilog,
+          constructing larger modules from reusable lower-level components.
+        </p>
+
+        <p>
+          The arithmetic path progresses from the top-level processor and
+          processor datapath through the ALU and 32-bit adder, which itself
+          contains carry-select and ripple-carry structures built from
+          gate-level full adders.
+        </p>
+
+        <p>
+          This modular approach made the design easier to verify, reuse,
+          and reason about across several levels of abstraction.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       04 FPGA IMPLEMENTATION
+       TEXT LEFT / IMAGE RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <figure class="project-media">
+        <img
+          src="../assets/images/tinyrv1/chip-planner.jpg"
+          alt="Quartus chip planner showing TinyRV1 processor placement">
+
+        <figcaption>
+          <strong>FPGA placement.</strong>
+          Quartus Chip Planner view showing the synthesized TinyRV1
+          processor logic mapped across the FPGA fabric.
+        </figcaption>
+      </figure>
+
+      <div class="project-copy">
+
+        <p class="section-number">04</p>
+
+        <h2>FPGA Implementation</h2>
+
+        <p>
+          After synthesis in Quartus, the processor used
+          <strong>9,328 ALUTs</strong> and
+          <strong>5,669 dedicated logic registers</strong>,
+          corresponding to approximately
+          <strong>34% of the FPGA resources</strong>.
+        </p>
+
+        <p>
+          The resource footprint reflects the flexibility of a
+          general-purpose processor. In addition to arithmetic logic,
+          the implementation requires instruction handling,
+          register storage, memory interfaces, write-back logic,
+          and control hardware.
+        </p>
+
+        <p>
+          Viewing the synthesized placement in the Chip Planner also
+          provided a physical view of how the RTL design mapped onto the
+          FPGA fabric.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       05 HARDWARE VERIFICATION
+       TWO IMAGES LEFT / TEXT RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <p class="section-number">05</p>
+    <h2>Hardware Verification</h2>
+
+    <p>
+      After simulation and synthesis, I verified the complete system on
+      physical hardware using oscilloscope measurements.
+    </p>
+
+    <div class="figure-grid">
+
+      <figure class="project-figure">
+        <img
+          src="../assets/images/tinyrv1/spi-waveform.jpg"
+          alt="Oscilloscope waveform of SPI SCLK and MOSI signals">
+
+        <figcaption>
+          <strong>SPI communication.</strong>
+          Oscilloscope capture of SCLK and MOSI packets used to verify
+          communication with the FPGA system.
+        </figcaption>
+      </figure>
+
+      <figure class="project-figure">
+        <img
+          src="../assets/images/tinyrv1/execution-time.jpg"
+          alt="Oscilloscope measurement of TinyRV1 execution time">
+
+        <figcaption>
+          <strong>Measured execution.</strong>
+          The accumulate assembly program completed in approximately
+          <strong>12.4 µs</strong> on the physical TinyRV1 processor.
+        </figcaption>
+      </figure>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       06 SOFTWARE EXECUTION
+       TEXT LEFT / IMAGE RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <figure class="project-media">
+        <img
+          src="../assets/images/tinyrv1/assembly-loop.jpg"
+          alt="TinyRV1 accumulate assembly program">
+
+        <figcaption>
+          <strong>Accumulate benchmark.</strong>
+          TinyRV1 assembly loop used to traverse memory and calculate
+          the sum of an array.
+        </figcaption>
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">06</p>
+
+        <h2>Running Software on the Processor</h2>
+
+        <p>
+          To validate the complete processor, I wrote TinyRV1 assembly
+          programs and executed them directly on the FPGA implementation.
+        </p>
+
+        <p>
+          The accumulate benchmark traverses an array stored in memory.
+          Each iteration performs five main operations:
+        </p>
+
+        <ul>
+          <li>load one value from memory,</li>
+          <li>add the value to the accumulator,</li>
+          <li>advance the memory address,</li>
+          <li>increment the loop counter, and</li>
+          <li>branch while additional elements remain.</li>
+        </ul>
+
+        <p>
+          Accumulating 31 elements required
+          <strong>159 processor cycles</strong>.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       07 ACCELERATOR
+       IMAGE LEFT / TEXT RIGHT
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split">
+
+      <figure class="project-media">
+        <img
+          src="../assets/images/tinyrv1/accelerator-fsm.jpg"
+          alt="Finite-state machine for TinyRV1 accumulate accelerator">
+
+        <figcaption>
+          <strong>Accelerator control FSM.</strong>
+          IDLE, FETCH, WAIT, and DONE states generate the control signals
+          required to sequence memory access and accumulation.
+        </figcaption>
+      </figure>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">07</p>
+
+        <h2>Specialized Accumulate Accelerator</h2>
+
+        <p>
+          I also implemented the accumulation workload as dedicated
+          hardware to explore the tradeoff between programmability
+          and specialization.
+        </p>
+
+        <p>
+          Unlike the general-purpose processor, the accelerator does not
+          require instruction fetch or decode logic. Its datapath contains
+          only the hardware needed for address generation, memory access,
+          accumulation, and state storage.
+        </p>
+
+        <p>
+          The finite-state machine sequences initialization, memory fetch,
+          accumulation, and completion while generating control signals
+          such as
+          <code>count_load</code>,
+          <code>count_en</code>,
+          <code>mem_val</code>,
+          <code>accum_en</code>, and
+          <code>accum_clear</code>.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+<!-- =========================
+     08 CHALLENGES & DEBUGGING
+     ========================= -->
+
+<section class="project-section">
+
+  <p class="section-number">08</p>
+  <h2>Challenges & Debugging</h2>
+
+  <p class="challenge-intro">
+    Moving the processor from simulation to physical hardware introduced
+    several challenges that required debugging across RTL, timing, and
+    system-level behavior.
+  </p>
+
+  <div class="challenge-list">
+
+    <!-- CHALLENGE 1 -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">01</span>
+        <h3>Metastability from Asynchronous Inputs</h3>
+      </div>
+
+      <p>
+        While testing the processor on the FPGA, I used physical push
+        buttons to reset the system. The reset behavior was initially
+        unpredictable-sometimes the processor reset correctly, while
+        other button presses produced inconsistent behavior.
+      </p>
+
+      <p>
+        By comparing simulation waveforms and failure cases, I traced the
+        problem to <strong>asynchronous inputs crossing into the processor's
+        clock domain</strong>. A button transition occurring near a clock
+        edge could violate a flip-flop's setup or hold time and cause the
+        receiving register to enter a metastable state.
+      </p>
+
+      <p>
+        I addressed the issue by adding
+        <strong>two-stage flip-flop synchronizers</strong> to asynchronous
+        inputs. The first stage may enter metastability, but the additional
+        clock cycle gives the signal time to resolve before the second
+        stage exposes it to the rest of the synchronous logic.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        Asynchronous inputs were safely synchronized into the FPGA clock
+        domain, making reset and external-input behavior stable and
+        repeatable.
+      </div>
+
+    </div>
+
+
+    <!-- CHALLENGE 2 -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">02</span>
+        <h3>Meeting Timing in a Single-Cycle Processor</h3>
+      </div>
+
+      <p>
+        A single-cycle architecture requires even the longest instruction
+        path to complete within one clock period. The load-word path was
+        particularly demanding because it traversed instruction memory,
+        decode and register-file logic, the ALU, data memory, and the
+        write-back path before reaching the register file.
+      </p>
+
+      <p>
+        I used the synthesized timing information to trace this path
+        through the system and identify the components contributing to
+        the critical delay. The final implementation met timing with an
+        <strong>80 ns clock period, or 12.5 MHz</strong>.
+      </p>
+
+      <div class="solution-box">
+        <strong>Takeaway:</strong>
+        Functional RTL is only part of a successful hardware design-the
+        physical timing of the complete combinational path ultimately
+        determines whether the processor can operate correctly at a
+        given clock frequency.
+      </div>
+
+    </div>
+
+
+    <!-- CHALLENGE 3 -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">03</span>
+        <h3>Debugging Across Simulation and Physical Hardware</h3>
+      </div>
+
+      <p>
+        Some system behavior could not be fully understood from RTL
+        simulation alone. Once the processor was deployed to the FPGA,
+        communication timing, external signals, and program execution
+        also had to be verified on the physical system.
+      </p>
+
+      <p>
+        I used oscilloscope captures of the SPI
+        <code>SCLK</code> and <code>MOSI</code> signals to inspect
+        communication at the interface level, and measured the execution
+        time of the accumulate program directly on hardware.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        The accumulate benchmark measured approximately
+        <strong>12.4 µs</strong> on hardware, providing a physical
+        measurement that could be compared against the processor's
+        expected cycle-level execution time.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+  <span id="year"></span>
+  Catherine Cheng · Built with HTML, CSS, and GitHub Pages.
+</footer>
+
+<script src="../js/main.js"></script>
+
+</body>
+
+</html>

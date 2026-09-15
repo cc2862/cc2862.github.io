@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>UART Guessing Game | Catherine Cheng</title>
+
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../index.html">Catherine Cheng</a>
+
+  <nav class="nav">
+    <a href="../about.html">About</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../coursework.html">Coursework</a>
+    <a href="../resume.html">Resume</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+</header>
+
+
+<main class="project-page">
+
+  <!-- =========================
+       PROJECT INTRO
+       ========================= -->
+
+  <section class="project-intro">
+
+    <p class="eyebrow">EMBEDDED SYSTEMS · TEAM PROJECT</p>
+
+    <h1>
+      UART Hot & Cold
+      Number-Guessing Game
+    </h1>
+
+    <p class="project-lead">
+      Built a two-board embedded game using UART communication,
+      LCD displays, physical button inputs, interrupts, and serial LEDs
+      to provide real-time hot-and-cold feedback as a player guesses
+      a secret number.
+    </p>
+
+    <div class="project-tags">
+      <span class="tag">C</span>
+      <span class="tag">UART</span>
+      <span class="tag">Embedded Systems</span>
+      <span class="tag">Interrupts</span>
+      <span class="tag">Concurrency</span>
+      <span class="tag">FRDM-KL46Z</span>
+    </div>
+
+  </section>
+
+
+<!-- ========================= 
+     MAIN IMAGE / PROJECT LINKS 
+     ========================= -->
+
+<section class="project-section">
+
+  <!-- Top row: UART boards image + project info -->
+  <div class="project-split">
+
+    <figure class="project-media">
+      <img
+        src="../assets/images/uart-game/edited-uart-boards.jpg"
+        alt="Two FRDM-KL46Z boards communicating over UART"
+      >
+
+      <figcaption>
+        <strong>Two-board UART system.</strong>
+        Player 1 and Player 2 run on separate FRDM-KL46Z boards
+        connected through bidirectional UART communication.
+      </figcaption>
+    </figure>
+
+
+    <div class="project-copy">
+
+      <p class="section-number">01</p>
+      <h2>System Overview</h2>
+
+      <p>
+        This project implements a two-player Hot & Cold number-guessing
+        game across two FRDM-KL46Z development boards. Player 1 selects
+        a secret number on Board 1, which is transmitted to Board 2
+        over UART.
+      </p>
+
+      <p>
+        Player 2 submits guesses from the second board and receives
+        color-coded feedback indicating how close each guess is to the
+        secret number. The game continues until Player 2 guesses
+        correctly or reaches the ten-guess limit.
+      </p>
+
+      <div class="project-links">
+        <a
+          class="project-button"
+          href="https://pages.github.coecis.cornell.edu/ece3140-spr2026/cc2862-exw4-si289/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Original Project Website ↗
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Full game-flow diagram -->
+  <figure class="uart-overview-figure">
+
+    <img
+      src="../assets/images/uart-game/system-overview.jpg"
+      alt="System flow diagram for the two-player UART Hot and Cold number-guessing game"
+    >
+
+    <figcaption>
+      <strong>Two-player game flow.</strong>
+      Player 1 selects and transmits the secret number to Board 2.
+      Player 2 then submits guesses and receives hot, lukewarm, or cold
+      feedback until the number is found or ten guesses have been made.
+    </figcaption>
+
+  </figure>
+
+</section>
+
+
+  <!-- =========================
+       MY ROLE
+       ========================= -->
+
+  <section class="project-section">
+
+    <div class="project-split reverse">
+
+      <div class="project-media">
+
+        <div class="critical-path-box">
+          <strong>My primary contributions</strong><br><br>
+
+          LCD display functionality<br>
+          Interrupt-driven input handling<br>
+          Concurrency logic<br>
+          System integration<br>
+          Hardware debugging and testing
+        </div>
+
+      </div>
+
+
+      <div class="project-copy">
+
+        <p class="section-number">02</p>
+
+        <h2>My Role</h2>
+
+        <p>
+          This was a team project, and my primary responsibility was
+          implementing the LCD functionality along with portions of the
+          interrupt and concurrency logic.
+        </p>
+
+        <p>
+          I worked on displaying user-entered values and game state on
+          the board's LCD while coordinating user input with the rest of
+          the system without blocking ongoing communication or processing.
+        </p>
+
+        <p>
+          I also contributed to integration and debugging as the individual
+          subsystems were combined into the final two-board implementation.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+<!-- =========================
+     PROJECT DEMO
+     ========================= -->
+
+<section class="project-section demo-section">
+
+  <div class="demo-heading">
+    <p class="section-number">03</p>
+    <h2>See It in Action</h2>
+
+    <p>
+      Watch the complete hardware demonstration of the two-board
+      Hot & Cold guessing game, including UART communication,
+      physical user input, LCD feedback, and serial LED output.
+    </p>
+  </div>
+
+    <div class="uart-video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/Odf30BchoUM"
+        title="UART Hot and Cold Number Guessing Game Demo"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+  <div class="demo-youtube-link">
+    <a
+      class="project-button"
+      href="https://www.youtube.com/watch?v=Odf30BchoUM"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Watch on YouTube ↗
+    </a>
+  </div>
+
+</section>
+
+<!-- =========================
+     03 UART COMMUNICATION
+     ========================= -->
+
+<section class="project-section">
+
+  <div class="wide-section">
+
+    <div class="wide-section-heading">
+      <p class="section-number">03</p>
+      <h2>UART Communication</h2>
+    </div>
+
+    <div class="wide-section-content">
+
+      <p>
+        The two FRDM-KL46Z boards communicate using UART. Numeric values
+        are converted into character-based messages before transmission
+        and reconstructed as integers on the receiving board.
+      </p>
+
+      <p>
+        Start and end markers frame each message so that the receiver can
+        determine where a complete number begins and ends. For example,
+        the integer 1234 is transmitted as:
+      </p>
+
+      <div class="critical-path-box">
+        <code>&lt;1234&gt;</code>
+      </div>
+
+      <p>
+        The receiving board collects the characters between the delimiters,
+        converts the character sequence back into an integer, and uses that
+        value in the game logic.
+      </p>
+
+      <p>
+        The final system required reliable bidirectional communication so
+        that each board could both transmit and receive game information
+        during play.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     04 INTERRUPTS / LCD
+     ========================= -->
+
+<section class="project-section">
+
+  <div class="wide-section">
+
+    <div class="wide-section-heading">
+      <p class="section-number">04</p>
+      <h2>Interrupt-Driven Input & LCD Display</h2>
+    </div>
+
+    <div class="wide-section-content">
+
+      <p>
+        Physical buttons allow each player to enter values using different
+        press durations. Short, medium, and long presses modify the current
+        value differently, while the LCD displays the player's current
+        input in real time.
+      </p>
+
+      <p>
+        I worked primarily on the LCD functionality along with interrupt
+        and concurrency logic. Because interrupt handlers can execute while
+        the main program is running, shared state had to be updated carefully
+        to avoid inconsistent values.
+      </p>
+
+      <p>
+        The final implementation coordinated user input, LCD updates,
+        UART communication, and game state without blocking the rest of
+        the system.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- =========================
+     05 HOT / COLD FEEDBACK
+     ========================= -->
+
+<section class="project-section">
+
+  <div class="wide-section">
+
+    <div class="wide-section-heading">
+      <p class="section-number">05</p>
+      <h2>Hot & Cold Feedback</h2>
+    </div>
+
+    <div class="wide-section-content">
+
+      <p>
+        After Player 2 submits a guess, the system compares it with the
+        secret number and provides immediate feedback through the serial LED.
+      </p>
+
+      <p>
+        The LED color indicates the relationship between the current guess
+        and the secret value:
+      </p>
+
+      <div class="feedback-grid">
+
+        <div class="feedback-card">
+          <strong>Red - Hot</strong>
+          <p>The guess is too high.</p>
+        </div>
+
+        <div class="feedback-card">
+          <strong>Blue - Cold</strong>
+          <p>The guess is too low.</p>
+        </div>
+
+        <div class="feedback-card">
+          <strong>Purple - Lukewarm</strong>
+          <p>The guess falls within the intermediate range.</p>
+        </div>
+
+        <div class="feedback-card">
+          <strong>Green - Correct</strong>
+          <p>The player found the secret number.</p>
+        </div>
+
+      </div>
+
+      <p>
+        The intensity of the color also changes with distance from the
+        target. Closer guesses produce a stronger warm indication, while
+        guesses farther away produce a stronger cold indication. The LED
+        brightness is derived from the percent error between the current
+        guess and the secret value.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+  <!-- =========================
+       TESTING / DEBUGGING
+       ========================= -->
+
+  <section class="project-section">
+
+    <p class="section-number">06</p>
+    <h2>Testing & Debugging</h2>
+
+    <p class="challenge-intro">
+      The project required several independent hardware and software
+      components to operate correctly at the same time, so we tested
+      individual subsystems before integrating the complete game.
+    </p>
+
+
+    <div class="challenge-list">
+
+      <div class="challenge-item">
+
+        <div class="challenge-heading">
+          <span class="challenge-number">01</span>
+          <h3>Subsystem Testing</h3>
+        </div>
+
+        <p>
+          UART communication, button input, LCD output, and LED behavior
+          were initially tested independently. This made it easier to
+          isolate failures before combining the complete system.
+        </p>
+
+        <div class="solution-box">
+          <strong>Approach:</strong>
+          Verify each peripheral independently before introducing
+          additional interactions between subsystems.
+        </div>
+
+      </div>
+
+
+      <div class="challenge-item">
+
+        <div class="challenge-heading">
+          <span class="challenge-number">02</span>
+          <h3>Integrating Concurrent Events</h3>
+        </div>
+
+        <p>
+          User inputs, display updates, communication, and game logic
+          could occur at different times, requiring careful coordination
+          of shared state between interrupt-driven and normal program
+          execution.
+        </p>
+
+        <div class="solution-box">
+          <strong>Takeaway:</strong>
+          Embedded systems debugging often involves understanding not
+          only whether individual components work, but also how their
+          timing and interactions affect the complete system.
+        </div>
+
+      </div>
+
+
+      <div class="challenge-item">
+
+        <div class="challenge-heading">
+          <span class="challenge-number">03</span>
+          <h3>End-to-End Hardware Verification</h3>
+        </div>
+
+        <p>
+          After subsystem testing, we tested complete game scenarios
+          across both boards to verify UART transmission, button input,
+          LCD output, and hot-and-cold LED feedback together.
+        </p>
+
+        <div class="solution-box">
+          <strong>Result:</strong>
+          The final system successfully supported two-board gameplay
+          with real-time communication and physical user interaction.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+<!-- =========================
+     06 CHALLENGES & DEBUGGING
+     ========================= -->
+
+<section class="project-section">
+
+  <p class="section-number">06</p>
+  <h2>Challenges & Debugging</h2>
+
+  <p class="challenge-intro">
+    Integrating two microcontrollers, asynchronous user inputs, UART
+    communication, displays, and serial LEDs introduced several bugs
+    that only became clear through incremental hardware testing.
+  </p>
+
+
+  <div class="challenge-list">
+
+    <!-- UART -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">01</span>
+        <h3>Getting UART Working in Both Directions</h3>
+      </div>
+
+      <p>
+        Early in development, UART communication worked reliably in one
+        direction but not in the reverse direction. This made it difficult
+        to tell whether the problem was in transmission, reception,
+        message framing, or the game logic itself.
+      </p>
+
+      <p>
+        We debugged the interface incrementally rather than testing the
+        entire game at once. We first transmitted known character
+        sequences and used the boards' LEDs to indicate when individual
+        characters were sent and received. Once character transmission
+        was reliable, we tested the integer-to-character conversion and
+        reconstructed received integers one digit at a time.
+      </p>
+
+      <p>
+        We also discovered a hardware resource conflict: the serial LED
+        and UART2 transmitter were assigned to the same Port E pin. We
+        moved communication to <strong>UART1</strong> so both peripherals
+        could operate simultaneously.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        Testing UART one layer at a time - bytes, framed character arrays,
+        integer conversion, and finally full game messages - allowed us to
+        isolate communication failures and achieve reliable board-to-board
+        operation.
+      </div>
+
+    </div>
+
+
+    <!-- BOARD FAILURE -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">02</span>
+        <h3>Unexpected Hardware Failure</h3>
+      </div>
+
+      <p>
+        During hardware integration, one development board became
+        abnormally hot and stopped behaving correctly. Because we could
+        not conclusively identify the exact electrical failure after the
+        fact, we treated it as a potential wiring or pin-configuration
+        problem rather than assuming a specific cause.
+      </p>
+
+      <p>
+        We replaced the affected board and carefully rechecked power,
+        ground, UART connections, and GPIO assignments before reconnecting
+        the full system. We also brought peripherals back online
+        incrementally instead of reconnecting everything at once.
+      </p>
+
+      <div class="solution-box">
+        <strong>Takeaway:</strong>
+        Hardware debugging requires protecting the physical system as
+        well as debugging software. After the failure, we became much
+        more deliberate about verifying wiring and pin assignments before
+        powering the complete setup.
+      </div>
+
+    </div>
+
+
+    <!-- CONCURRENCY -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">03</span>
+        <h3>Interrupts & Shared-State Concurrency</h3>
+      </div>
+
+      <p>
+        Button interrupts and the main game loop both needed access to
+        shared state such as the current user input and display values.
+        An interrupt can preempt normal program execution, so careless
+        access to shared variables could leave the system with partially
+        updated or inconsistent state.
+      </p>
+
+      <p>
+        I worked on the concurrency logic used to coordinate these shared
+        variables. Critical operations were protected so that an
+        interrupt could not interfere with an update at an unsafe point,
+        while interrupt handlers were kept short so the rest of the
+        application could continue responding normally.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        Coordinating interrupt-driven input with the main program allowed
+        the LCD, UART communication, and game logic to operate reliably
+        without corrupting shared state.
+      </div>
+
+    </div>
+
+
+    <!-- INTEGRATION -->
+    <div class="challenge-item">
+
+      <div class="challenge-heading">
+        <span class="challenge-number">04</span>
+        <h3>Integrating Independently Working Subsystems</h3>
+      </div>
+
+      <p>
+        Buttons, UART, the LCD, and serial LEDs all worked independently
+        before the full system was assembled, but integration introduced
+        new interactions between peripherals and timing-sensitive code.
+      </p>
+
+      <p>
+        We used an incremental integration strategy: button behavior was
+        first verified with onboard LEDs, UART was tested with known
+        messages, LCD updates were checked visually, and LED feedback was
+        tested across a range of simulated percent errors. Only after
+        each subsystem behaved correctly did we combine them into the
+        final game.
+      </p>
+
+      <div class="solution-box">
+        <strong>Result:</strong>
+        Breaking the system into independently testable components made
+        integration failures much easier to isolate and ultimately
+        produced stable two-board gameplay.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+  <span id="year"></span>
+  Catherine Cheng · Built with HTML, CSS, and GitHub Pages.
+</footer>
+
+<script src="../js/main.js"></script>
+
+</body>
+
+</html>
