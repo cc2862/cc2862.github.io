@@ -986,3 +986,310 @@ footer {
   justify-content: flex-start;   /* button on left */
   margin-top: 18px;
 }
+
+
+/* Clickable project demo */
+
+.demo-video-link {
+  width: min(100%, 520px);
+  margin-top: 20px;
+}
+
+.demo-video-link a {
+  position: relative;
+  display: block;
+}
+
+.demo-video-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  border-radius: 12px;
+  border: 1px solid var(--line);
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.demo-video-link a:hover img {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+
+/* Play icon */
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.78);
+  color: white;
+
+  font-size: 25px;
+
+  pointer-events: none;
+}
+
+
+/* Caption */
+
+.demo-caption {
+  max-width: 520px;
+  margin-top: 10px;
+
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   MY ROLE + DEMO SIDE-BY-SIDE
+   ========================================== */
+
+.role-demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 55px;
+  align-items: start;
+}
+
+.role-column,
+.demo-column {
+  min-width: 0;
+}
+
+.role-column h2,
+.demo-column h2 {
+  margin-top: 0;
+}
+
+.role-column p,
+.demo-column p {
+  line-height: 1.65;
+}
+
+
+/* Demo thumbnail */
+
+.demo-video-link {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 18px;
+}
+
+.demo-video-link a {
+  position: relative;
+  display: block;
+}
+
+.demo-video-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  border-radius: 12px;
+  border: 1px solid var(--line);
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.demo-video-link a:hover img {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+
+/* Play button */
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.78);
+  color: white;
+
+  font-size: 21px;
+
+  pointer-events: none;
+}
+
+
+/* Caption */
+
+.demo-caption {
+  max-width: 480px;
+  margin-top: 9px;
+
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+
+/* Stack on smaller screens */
+
+@media (max-width: 800px) {
+
+  .role-demo-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+}
+
+/* ==========================================
+   DRONE PROJECT
+   ========================================== */
+
+.compact-section-intro {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+
+
+/* Electrical design cards */
+
+.drone-two-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.drone-work-card {
+  min-width: 0;
+}
+
+.drone-work-card img,
+.drone-pdf-preview {
+  width: 100%;
+  height: 400px;
+
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.drone-work-card img {
+  display: block;
+  object-fit: cover;
+}
+
+.drone-pdf-preview object {
+  width: 100%;
+  height: 100%;
+}
+
+.drone-work-card h3 {
+  margin: 14px 0 6px;
+  font-size: 1.05rem;
+}
+
+.drone-work-card p {
+  margin-top: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+
+/* Flight controller section */
+
+.drone-compact-row {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.drone-skill-boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.drone-skill-boxes div {
+  padding: 18px 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.drone-skill-boxes strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.drone-skill-boxes span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+
+/* Mobile */
+
+@media (max-width: 800px) {
+
+  .drone-two-card-grid,
+  .drone-compact-row {
+    grid-template-columns: 1fr;
+  }
+
+  .drone-skill-boxes {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+/* ==========================================
+   HOME ABOUT
+   ========================================== */
+
+.home-about {
+  max-width: 900px;
+  margin: 25px auto 60px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.home-about-content {
+  max-width: 760px;
+}
+
+.home-about-content h2 {
+  margin-top: 5px;
+  margin-bottom: 18px;
+  font-size: 1.65rem;
+}
+
+.home-about-content p {
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.home-about-content .project-button {
+  margin-top: 8px;
+}
