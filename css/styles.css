@@ -264,8 +264,11 @@ footer {
   }
 
   .hero-photo img {
-    width: 240px;
-    height: 300px;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center;
   }
 }
 
