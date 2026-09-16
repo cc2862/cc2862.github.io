@@ -95,7 +95,7 @@
           The synthesizer allows a user to generate and manipulate audio
           in real time using a slide potentiometer and matrix keypad.
           Moving the potentiometer continuously adjusts the generated
-          frequency over a range of approximately 0–10 kHz.
+          frequency over a range of approximately 0-10 kHz.
         </p>
 
         <p>
@@ -222,24 +222,26 @@
     </div>
 
 
-    <div class="project-stats birdsynth-stats">
+<!-- SYNTHESIS SUMMARY -->
 
-      <div class="stat">
-        <strong>50 kHz</strong>
-        <span>Sample Rate</span>
-      </div>
+<div class="timing-summary">
 
-      <div class="stat">
-        <strong>20 μs</strong>
-        <span>Sample Period</span>
-      </div>
+  <div class="timing-stat">
+    <span class="timing-value">50 kHz</span>
+    <span class="timing-label">Sample Rate</span>
+  </div>
 
-      <div class="stat">
-        <strong>256</strong>
-        <span>Sine LUT Entries</span>
-      </div>
+  <div class="timing-stat">
+    <span class="timing-value">20 μs</span>
+    <span class="timing-label">Sample Period</span>
+  </div>
 
-    </div>
+  <div class="timing-stat">
+    <span class="timing-value">256</span>
+    <span class="timing-label">Sine LUT Entries</span>
+  </div>
+
+</div>
 
   </section>
 
@@ -301,25 +303,26 @@
     </div>
 
 
-    <div class="project-stats birdsynth-stats">
+<!-- ISR TIMING SUMMARY -->
 
-      <div class="stat">
-        <strong>2.16 μs</strong>
-        <span>Measured ISR Time</span>
-      </div>
+<div class="timing-summary">
 
-      <div class="stat">
-        <strong>10.8%</strong>
-        <span>Sample Period Used</span>
-      </div>
+  <div class="timing-stat">
+    <span class="timing-value">2.16 μs</span>
+    <span class="timing-label">Measured ISR Time</span>
+  </div>
 
-      <div class="stat">
-        <strong>17.84 μs</strong>
-        <span>Timing Margin</span>
-      </div>
+  <div class="timing-stat">
+    <span class="timing-value">10.8%</span>
+    <span class="timing-label">Sample Period Used</span>
+  </div>
 
-    </div>
+  <div class="timing-stat">
+    <span class="timing-value">17.84 μs</span>
+    <span class="timing-label">Timing Margin</span>
+  </div>
 
+</div>
   </section>
 
 
@@ -411,11 +414,11 @@
         </p>
 
         <p>
-          I used a four-state finite-state machine —
+          I used a four-state finite-state machine -
           <strong>NOT_PRESSED</strong>,
           <strong>MAYBE_PRESSED</strong>,
           <strong>PRESSED</strong>, and
-          <strong>MAYBE_NOT_PRESSED</strong> —
+          <strong>MAYBE_NOT_PRESSED</strong> -
           to verify that a key remains stable before accepting the
           transition.
         </p>
@@ -431,7 +434,7 @@
   <!-- ==========================================
        06 RECORDING
        ========================================== -->
-
+<!--
   <section class="project-section">
 
     <div class="wide-section">
@@ -449,7 +452,7 @@
 
         <p>
           Pressing the asterisk key enters Record Mode. The user can then
-          hold any key from 1–9 while moving the slide potentiometer to
+          hold any key from 1-9 while moving the slide potentiometer to
           create a changing frequency pattern.
         </p>
 
@@ -461,9 +464,9 @@
         </p>
 
         <p>
-          Each key from 1–9 has an independent recording buffer. During
+          Each key from 1-9 has an independent recording buffer. During
           playback, the stored frequency sequence is traversed approximately
-          8–10× faster than it was recorded.
+          8-10× faster than it was recorded.
         </p>
 
         <p>
@@ -477,14 +480,14 @@
 
     </div>
 
-  </section>
+  </section> -->
 
 
 
   <!-- ==========================================
        07 COMPOSE MODE
        ========================================== -->
-
+<!--
   <section class="project-section">
 
     <div class="wide-section">
@@ -556,14 +559,14 @@
 
     </div>
 
-  </section>
+  </section> -->
 
 
 
   <!-- ==========================================
        08 DEMO
        ========================================== -->
-
+<!--
   <section class="project-section">
 
     <div class="wide-section">
@@ -602,7 +605,7 @@
     </div>
 
   </section>
-
+-->
 
 
 <!-- ==========================================
@@ -616,9 +619,7 @@
 
   <p class="challenge-intro">
     Many of the most difficult bugs appeared only after the audio,
-    user-input, and control subsystems were integrated. Debugging the
-    system required accounting for real-time deadlines, electrical
-    behavior, and interactions between software states.
+    user-input, and control subsystems were integrated. 
   </p>
 
 
@@ -680,18 +681,16 @@
       </div>
 
       <p>
-        The keypad interface relied on GPIO drive levels and pull
-        resistances to distinguish rows and columns. On the breadboard,
-        the physical wiring introduced non-ideal effects that were absent
-        from the ideal digital model.
+        The keypad interface relied on pull up/down
+        resistances to distinguish rows and columns. 
       </p>
 
       <p>
         Parasitic capacitance from the breadboard and jumper wires,
         combined with pull-up/pull-down resistance and switch contact
-        behavior, can create finite RC settling times at GPIO inputs.
+        behavior, created finite RC settling times at GPIO inputs.
         Reading a keypad line too quickly after changing the driven row
-        can therefore sample the signal before it has fully settled.
+        would therefore sometimes sample the signal before it has fully settled.
       </p>
 
       <p>
@@ -702,8 +701,9 @@
 
       <div class="solution-box">
         <strong>Solution:</strong>
-        I treated the keypad as a real electrical interface rather than
-        an ideal digital input. Stable scan timing combined with the
+        To address this, the firmware had to account for the keypad's real-world 
+        electrical characteristics rather than treating inputs as ideal digital signals.
+        A stable scan timing combined with the
         four-state debounce FSM ensured that a transition had to persist
         before the software accepted it as a valid press or release.
       </div>
